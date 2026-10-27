@@ -85,6 +85,8 @@ try{
  assert.deepEqual([...covered].sort(),Object.keys(specs).sort());
  await db.close();db=null;
  assert.equal(JSON.parse(child('scripts/beta.mjs',['programmes','--json'])).length,3);
+ assert.match(child('scripts/beta.mjs',['show-feedback','FB-01']),/Saved count returns to zero/);
+ assert.match(child('scripts/beta.mjs',['show','BETA-1']),/Harbour inventory beta/);
  const ambiguous=spawnSync(process.execPath,['scripts/beta.mjs','show','Harbour'],{cwd:REPO_ROOT,env:process.env,encoding:'utf8'});assert.equal(ambiguous.status,1);assert.match(ambiguous.stderr,/Ambiguous/);
  child('scripts/view.mjs');child('scripts/docs.mjs');assert.equal(fs.readdirSync(path.join(temp,'views')).length,3);assert.equal(fs.readdirSync(path.join(temp,'docs-out')).length,3);
  const html=fs.readFileSync(path.join(temp,'views/week.html'),'utf8');assert.ok(html.includes('&lt;script&gt;'));assert.ok(!html.includes('<script>alert'));

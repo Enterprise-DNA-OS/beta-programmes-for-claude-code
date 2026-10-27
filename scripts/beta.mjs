@@ -228,6 +228,8 @@ export async function run(db,args){
  catch(e){await db.exec('ROLLBACK');throw e;}
 }
 function human(value){
+ if(value==null)return "";
+ if(typeof value!=="object")return String(value);
  if(Array.isArray(value)){
  if(!value.length)return '(none)';
  if(value[0]?.question)return value.map(v=>v.question+'\n'+human(v.rows)).join('\n\n');
