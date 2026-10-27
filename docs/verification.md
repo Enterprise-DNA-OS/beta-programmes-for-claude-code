@@ -7,3 +7,11 @@ The suite checks migration and seed repeatability, date validation, ambiguous-na
 Local execution: Node 22 on Linux with PGlite. Windows and server Postgres results are recorded after the GitHub verification workflow runs. The Windows job uses Node 22 and the same smoke suite. The server job uses a disposable Postgres 17 service and the same suite. No live customer database is accessed.
 
 npm run demo, npm run view and npm run docs are checked on fictional data. The generated reports are inspected in a headless browser. Reports and source exports stay outside git.
+
+## Results from 27 October 2026
+
+- Linux Node 22.23.4 with PGlite: PASS, all 40 CLI commands and the assertions above.
+- Linux Node 22.23.4 with a disposable Postgres 17.10 server: PASS, the same 40-command suite. The server bound to loopback, used fictional test data and was stopped after the test.
+- Windows: not executed. GitHub Actions rejected every job before starting a runner because the organisation's account payments or spending limit blocked jobs. [Verification run](https://github.com/Enterprise-DNA-OS/beta-programmes-for-claude-code/actions/runs/40596788334). No test step failed; none ran there. The Windows verification job remains available once the account block is resolved.
+- npm run demo, npm run view and npm run docs: PASS. Three dashboard files and six demo documents generated. The week dashboard and exit review were inspected in a headless Chromium browser.
+- README and documentation brand lint: PASS. No author placeholders or prohibited prose terms remain.
