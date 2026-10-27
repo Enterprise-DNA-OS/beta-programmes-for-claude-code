@@ -5,6 +5,7 @@ import { randomUUID, createHash } from 'node:crypto';
 import { pathToFileURL } from 'node:url';
 import { getDb, REPO_ROOT } from './lib/db.mjs';
 import { parseCsv } from './lib/csv.mjs';
+import { table } from './lib/format.mjs';
 
 export const specs={
  help:'',programmes:'',participants:'',activities:'',show:'<programme>', 'show-feedback':'<feedback>', 'show-participant':'<participant>',
@@ -235,7 +236,7 @@ function human(value){
  if(value[0]?.question)return value.map(v=>v.question+'\n'+human(v.rows)).join('\n\n');
  const keys=Object.keys(value[0]).filter(k=>!['id','programme_id','source_record','source_hash','created_at','updated_at'].includes(k));
  const cell=v=>typeof v==='object'?JSON.stringify(v):String(v??'');
- return [keys.join(' | '),keys.map(()=> '---').join(' | '),...value.map(v=>keys.map(k=>cell(v[k]).replace(/\n/g,' ')).join(' | '))].join('\n');
+ return table(value,keys.map(key=>({key,label:key.replaceAll('_',' '),width:70,format:v=>cell(v).replace(/\n/g,' ')}))); 
  }
  return Object.entries(value).map(([k,v])=>k+'\n'+(typeof v==='object'?human(v):String(v))).join('\n\n');
 }
