@@ -1,0 +1,8 @@
+{
+  "id": "Ticket ID",
+  "title": "Title",
+  "description": "Description",
+  "kind": "Type",
+  "severity": "Severity",
+  "submitted_on": "Date Submitted"
+}

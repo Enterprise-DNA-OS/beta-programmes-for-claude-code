@@ -1,115 +1,134 @@
-<h1 align="center">Beta Programmes for Claude Code</h1>
+# Beta Programmes for Claude Code
 
-<p align="center">
-  <strong>The open-source beta programme desk that is just a database and Claude Code.</strong>
-</p>
+Own the evidence behind your next beta exit decision. A database for participant readiness, weekly activities, feedback triage and fix verification, built by Enterprise DNA. Works with Claude Code, Codex, OpenCode or Cursor.
 
-<p align="center">
-  Created by <a href="https://www.enterprisedna.co"><strong>Enterprise DNA</strong></a>. Free and open source. Works with Claude Code, Codex, OpenCode or Cursor.
-</p>
+| Do it yourself | We customise it | We run it for you |
+|---|---|---|
+| Free, MIT. Run the database and command recipes. | Your tester fields, exit rules, Centercode mapping and agreed connections. A web front end or different stack if wanted. | Installed, connected and operated through Omni by Enterprise DNA. One setup fee, then a retainer. |
 
-<!-- three-doors -->
-<table align="center">
-  <tr>
-    <td align="center"><strong>Do it yourself</strong><br/>Clone it, run it, own it. Free, MIT.<br/><a href="#quick-start">Quick start</a></td>
-    <td align="center"><strong>We customise it</strong><br/>Your fields, your rules, your Centercode data brought across.<br/><a href="https://enterprisedna.co/omni/book/?utm_source=github&utm_medium=readme&utm_campaign=centercode">Book a call</a></td>
-    <td align="center"><strong>We run it for you</strong><br/>Installed, connected and operated inside Omni. Setup fee, then a retainer.<br/><a href="https://enterprisedna.co/omni/instead-of/centercode?utm_source=github&utm_medium=readme&utm_campaign=centercode">How it works</a></td>
-  </tr>
-</table>
+[Get your version built](https://enterprisedna.co/omni/book/?offer=replace-software&utm_source=github&utm_campaign=centercode)
 
-<p align="center">
-  <a href="#what-is-this">What is this</a> &bull;
-  <a href="#why-no-front-end">Why no front end</a> &bull;
-  <a href="#quick-start">Quick start</a> &bull;
-  <a href="#the-commands">Commands</a> &bull;
-  <a href="#instead-of-centercode">Instead of Centercode</a> &bull;
-  <a href="#want-it-installed-and-run-for-you">Installed for you</a> &bull;
-  <a href="#license">License</a>
-</p>
+## What the desk does
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Node-20+-339933?style=flat-square" alt="Node 20+" />
-  <img src="https://img.shields.io/badge/PostgreSQL-any-336791?style=flat-square" alt="PostgreSQL" />
-  <img src="https://img.shields.io/badge/PGlite-embedded-3ecf8e?style=flat-square" alt="PGlite" />
-  <img src="https://img.shields.io/badge/License-MIT-yellow?style=flat-square" alt="MIT License" />
-</p>
+A product operator checks participant eligibility, assigns activities, records outcomes, triages feedback, requests retests and records an exit decision. A fixed issue cannot close without the latest completed retest passing on the current build and no pending retests on that build. Cross-programme links are rejected. A go decision requires participants, activities, no unassigned activities, no unfinished assignments, no ineligible participants, no open high or critical issues and no unclosed fixes. Those are local rules you can change through /customise.
 
----
-
-## What is this
-
-Beta Programmes for Claude Code does the job you pay Centercode for, as a Postgres database and a set of agent commands. There is no web front end. You open the folder in [Claude Code](https://claude.com/claude-code) (or Codex, OpenCode, Cursor: see `AGENTS.md`) and ask for what you want in plain language. It runs the right query, and it can answer questions the Centercode dashboard cannot.
-
-<!-- TODO(author): the annual bill. One sentence: what a 10 to 50 person business typically pays Centercode per year, all in, with a source. -->
-
-Want the same thing with a web front end, or built on a different stack? That is a customisation, and it is exactly what Enterprise DNA does: [book a call](https://enterprisedna.co/omni/book/?utm_source=github&utm_medium=readme&utm_campaign=centercode).
-
-<!-- TODO(author): two or three sentences on what this specific product covers and who it is for. -->
-
-## Why no front end
-
-- The front end was only ever there because the database was hard to talk to. That is no longer true.
-- Your data sits in plain Postgres tables you own. Any tool can read them. No export, no lock-in.
-- No seats, no tiers, no add-ons. Read [docs/why-no-front-end.md](docs/why-no-front-end.md) for the honest trade-offs too.
+[Centercode's current pricing page](https://www.centercode.com/pricing) asks buyers to talk to sales. It publishes no numeric paid-plan price, checked 27 October 2026. Compare your quote with the records and workflows you actually need. This free desk handles the internal beta work. Participant collection screens, build distribution, automated invitations and external issue-tracker connections are work to scope for your version. It does not reproduce Centercode's hosted service.
 
 ## Quick start
 
-Sixty seconds, no database install (an embedded Postgres runs inside Node):
+Node 20 or newer. No database server needed for the embedded demo.
 
 ```bash
-git clone https://github.com/Enterprise-DNA-OS/beta-programmes-for-claude-code.git
-cd beta-programmes-for-claude-code
 npm install
 npm run demo
+node scripts/beta.mjs cohort-readiness
+node scripts/beta.mjs feedback-triage
+node scripts/beta.mjs insights --since=2026-01-01 --until=2026-12-31 --json
+npm run view
+npm run docs
+npm test
 ```
 
-Then open the folder in Claude Code and type a slash command. <!-- TODO(author): name the first command to try. -->
+The demo uses fictional people and relative dates with deliberately overdue work. Use a fresh DATA_DIR and npm run migrate without seeding for your own records, or set DATABASE_URL to a dedicated Postgres database. Read [verification](docs/verification.md) for tested environments. One local process uses an embedded database at a time. Use a secured Postgres service for concurrent operators.
 
-### Use it with your own Postgres or Supabase
+## Commands
 
-Copy `.env.example` to `.env`, set `DATABASE_URL`, then `npm run migrate`. Same commands, shared data, no per-seat fee.
+- `help`
+- `programmes`
+- `participants`
+- `activities`
+- `show`: `<programme>`
+- `show-feedback`: `<feedback>`
+- `show-participant`: `<participant>`
+- `update-participant`: `<participant> --notice= --retain-until= --note= --actor=`
+- `renew-agreement`: `<programme> --participant= --agreement= --evidence= --accepted= --actor=`
+- `beta-week`
+- `cohort-readiness`
+- `activity-chase`
+- `feedback-triage`
+- `retest-queue`
+- `exit-review`
+- `attention`
+- `compliance`
+- `insights`: `[--since=YYYY-MM-DD --until=YYYY-MM-DD]`
+- `history`: `<programme>`
+- `add-programme`: `--code= --name= --owner= --objective= --ends= --agreement= --actor=`
+- `add-participant`: `--code= --name= --segment= --platform= --notice= --retain-until= --actor=`
+- `enrol`: `<programme> --participant= --agreement= --evidence= --accepted= --actor=`
+- `add-activity`: `<programme> --code= --name= --instructions= --due= --actor=`
+- `assign`: `<activity> --participant= --actor=`
+- `complete`: `<assignment-id> --outcome=completed|blocked --note= --actor=`
+- `add`: `<programme> --code= --title= --description= --kind=issue|idea|praise --severity=critical|high|medium|low [--participant=] --actor=`
+- `triage`: `<feedback> --owner= --severity= --note= --actor=`
+- `duplicate`: `<feedback> --of= --note= --actor=`
+- `fix`: `<feedback> --build= --note= --actor=`
+- `request-retest`: `<feedback> --tester= --due= --actor=`
+- `record-retest`: `<retest-id> --outcome=passed|failed --evidence= --date= --actor=`
+- `resolve`: `<feedback> --note= --actor=`
+- `withdraw`: `<participant> --note= --actor=`
+- `log`: `<programme> --note= --actor=`
+- `record-decision`: `<programme> --decision=hold|go --rationale= --actor=`
+- `import`: `centercode <csv> --programme= --source= --map= --actor= [--dry-run]`
+- `export`: `--out=<new.json>`
+- `weekly-review`
+- `draft-test-plan`: `<programme>`
+- `draft-exit-brief`: `<programme>`
 
-## The commands
+Prefix each with node scripts/beta.mjs. All support --json. Forty CLI commands, forty matching recipes, plus /customise and /new-view.
 
-<!-- TODO(author): a table of the slash commands in .claude/commands and what each one does. -->
+## Bring your feedback history
 
-| Command | What it does |
-|---|---|
-| `/...` | ... |
+Centercode supports CSV exports for each feedback type. Its columns are configurable. Save each form's export, inspect its headers, and create the column map once. The example is synthetic, not an asserted universal Centercode format.
 
-## Instead of Centercode
-
-<!-- TODO(author): how to bring data across from Centercode; link docs/replace-centercode.md -->
-
-## Architecture
-
+```bash
+node scripts/beta.mjs import centercode examples/centercode-feedback.csv --programme=BETA-1 --source=demo-account/issues --map=examples/feedback-map.json --actor=Operator --dry-run
+node scripts/beta.mjs import centercode examples/centercode-feedback.csv --programme=BETA-1 --source=demo-account/issues --map=examples/feedback-map.json --actor=Operator
+node scripts/beta.mjs export --out=exports/beta.json
 ```
-beta-programmes-for-claude-code/
-  CLAUDE.md                 how the operator wants this run (routing table + house rules)
-  AGENTS.md                 the same, for Codex / OpenCode / Cursor / Gemini CLI
-  .claude/commands/         the slash commands
-  scripts/                  the CLI the commands drive
-  scripts/lib/db.mjs        one adapter: DATABASE_URL (pg) or embedded PGlite
-  supabase/migrations/      plain SQL schema
-  supabase/seed.sql         demo data
-  docs/                     the thesis and the migration guide
-```
 
-## Built for coding agents
+One command loads one configured feedback export. All rows apply together or none do. Stable source ids prevent duplicates on a repeat run. Changed rows stop the batch for reconciliation. Raw columns remain attached to each feedback record. Imported feedback starts new and without a participant link, irrespective of its source status. Reconcile every form and count before switching. [Mapping and boundaries](docs/replace-centercode.md).
 
-The database, CLI and command recipes work with Claude Code, Codex, OpenCode or Cursor. Ask your coding agent for a new command and have it implement and test the change against the same records.
+## Ten questions to ask
 
-## Contributing
+Centercode's own reporting guide describes a limit when combining projects, a feedback dimension and a date window, with an export as a workaround. The first two questions do that over imported data. The others combine this desk's own evidence. They are not a claim that the vendor can never answer a similar question.
 
-Issues and pull requests are welcome. Keep the shape: plain SQL, a small CLI, a slash command per recurring job, no front end.
+1. Which programmes have high severity issues reported in this date window?
+2. Which tester platforms produced those unresolved issues?
+3. Which participants have overdue activities and no recent activity?
+4. Which fixes are waiting on an overdue retest?
+5. Which current fixes failed their latest retest?
+6. Which programmes have participants whose agreement or privacy records need attention?
+7. Which unresolved issues still have no owner?
+8. Which programmes have finished activities but still have release blockers?
+9. Which programmes are ready for an exit decision under our recorded rules?
+10. Which feedback is marked as duplicate and what original does it refer to?
 
-## Want it installed and run for you?
+The insights command answers all ten. The date window applies to the first two; the remaining questions show current operational state.
 
-Enterprise DNA installs Beta Programmes for Claude Code for your business, migrates your Centercode data, connects it to the rest of your tools, and runs it for you as part of **Omni**, our managed Command Center. One setup fee, then a monthly retainer.
+## Your first hour: ten things to ask for
 
-- Book a call: [enterprisedna.co/omni/book](https://enterprisedna.co/omni/book/?offer=replace-software&utm_source=github&utm_medium=readme&utm_campaign=centercode)
-- Read more: [enterprisedna.co/omni/instead-of/centercode](https://enterprisedna.co/omni/instead-of/centercode?utm_source=github&utm_medium=readme&utm_campaign=centercode)
+1. Put our name, logo and colours in brand.json.
+2. Add our beta programme and its current agreement version.
+3. Record the participant aliases we need, with notice references and retention review dates.
+4. Enrol them with evidence of actual agreement acceptance.
+5. Create this week's activities and assign eligible participants.
+6. Preview a Centercode feedback export with our column names.
+7. Reconcile its rows and preserve a private copy of the source export.
+8. Triage open issues and request retests for fixed builds.
+9. Read the exit review and record a reasoned decision.
+10. Add our own exit criterion through /customise.
 
-## License
+## Documents and read-only views
 
-MIT. Copyright (c) 2026 Enterprise DNA.
+The week, cohort and feedback views show the current evidence. npm run docs renders a test plan, triage brief and exit review for every programme. All use brand.json and escape record text. /draft-test-plan and /draft-exit-brief write private Markdown drafts. Nothing sends or releases software.
+
+## Boundaries
+
+This is an internal operator desk for one organisation. It has no participant login, mobile or offline capture, live collection forms, public portal, attachments store, build hosting or live integrations. Those features need separate delivery. Read [why no front end](docs/why-no-front-end.md).
+
+Privacy checks identify missing notices and overdue retention reviews. They do not decide legal compliance or erase personal data. Withdrawn participants remain visible, cannot receive new work and hold the default exit gate for operator review. Agreements are evidence references, not digital signatures. Retest tester names are recorded labels, not verified identities.
+
+Row access is closed to public roles. A database owner can bypass it. Secure credentials, backups and any hosted access before shared use. Exports include source records and other private fields. Generated files use restrictive permissions where supported; Windows also needs suitable folder permissions. The JSON export covers ten domain relations, but is not a tested restore tool. Use native database backups for recovery.
+
+MIT. Built by Enterprise DNA.
+

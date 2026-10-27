@@ -1,24 +1,11 @@
-# Why there is no front end
+# Why this desk has no front end
 
-Centercode is a database with a subscription. The tables underneath it are ordinary: a few entities, a few relationships, a handful of workflows you repeat every week. What you pay for is the layer on top that lets people who do not write SQL get at those tables. Screens, filters, dashboards, forms.
+The operator's recurring work is reviewing a cohort, assigning a test activity, triaging feedback, asking for a retest and preparing an exit decision. Those jobs work against ordinary records. A coding agent can run the matching recipe and explain the result while the database keeps the evidence.
 
-That layer used to be the whole product, because talking to a database was hard. It is not hard any more. Open this folder in Claude Code, describe what you want, and it writes the query, runs it, and explains the answer. Ask a question the dashboard never had a chart for and you still get an answer.
+The read-only week, cohort and feedback reports show the state without adding another editing screen. Test plans, triage briefs and exit reviews are branded HTML documents you can print. Changes happen through the CLI.
 
-## What you gain
+A participant-facing screen provides something this desk does not: direct submissions, uploads, invitations, account access, mobile capture and offline work. Centercode also hosts build distribution and other community functions. This free base is for an internal operator who supplies feedback exports and records tester outcomes. It is not a hosted replacement for every participant interaction.
 
-- **Better answers.** A dashboard shows what the vendor decided to chart. Here you ask your own question, in your own words, and get it answered against your own data.
-- **No seats.** Everyone who needs to look can look. The bill does not grow with headcount.
-- **Your data in your Postgres.** Plain tables. Back them up, query them from anything, leave any time. There is no export step because there is nothing to leave.
-- **A process that matches you.** When your way of working changes, you add a command. You do not wait for a feature request to clear.
+Enterprise DNA can build a web front end, intake forms, access controls, attachment storage and agreed delivery connections into your version. Those are scoped work, not functions silently included in this download. The internal desk remains useful without them when a person manages the beta process and imports the records.
 
-## What you give up
-
-- **A visual board.** Stages are a table you ask about, not cards you drag.
-- **A phone app.** It runs where Claude Code runs.
-- **A vendor help desk.** This is open source. Enterprise DNA supports the installed version for businesses that want someone to call.
-
-## Who this fits
-
-Small teams who already use Claude Code, or who would rather learn to ask than learn another interface. If your team needs a screen to look at all day, keep Centercode. If you need the answers more than the screens, this is cheaper, faster and yours.
-
-Installed and run for you: https://enterprisedna.co/omni/instead-of/centercode
+Use the free version if its operating model fits. Compare your actual collection and delivery workflow before replacing a subscription. Omni by Enterprise DNA provides setup, customisation and ongoing operation for businesses that want that responsibility handled.

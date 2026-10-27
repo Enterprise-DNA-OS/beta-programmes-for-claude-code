@@ -1,0 +1,5 @@
+Ticket ID,Title,Description,Type,Severity,Date Submitted,Status,Custom field
+101,"Saved count, missing","Steps:
+1. Save count
+2. Reconnect",Issue,High,2026-01-10,Open,North warehouse
+102,Label contrast,Text hard to read,Idea,Low,2026-01-11,Reviewed,Mobile

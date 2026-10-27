@@ -1,11 +1,68 @@
 [
   {
-    "name": "example",
-    "title": "TODO(author): the first document this industry must produce",
-    "for_each": "select gen_random_uuid() as id, 'Example' as name",
-    "file": "name",
+    "name": "test-plan",
+    "title": "Beta test plan",
+    "for_each": "select id,code from programmes order by code",
+    "file": "code",
     "sections": [
-      { "title": "Details", "sql": "select 'replace me' as item, $1::text as record_id" }
+      {
+        "title": "Programme",
+        "layout": "record",
+        "sql": "select code,name,owner,objective,ends_on,agreement_version from programmes where id=$1"
+      },
+      {
+        "title": "Activities",
+        "sql": "select code,name,instructions,due_on from activities where programme_id=$1 order by due_on,code"
+      },
+      {
+        "title": "Participant readiness",
+        "sql": "select participant,name,platform,eligible from v_cohort where programme_id=$1 order by participant"
+      }
+    ]
+  },
+  {
+    "name": "triage-brief",
+    "title": "Beta feedback triage brief",
+    "for_each": "select id,code from programmes order by code",
+    "file": "code",
+    "sections": [
+      {
+        "title": "Programme",
+        "layout": "record",
+        "sql": "select code,name,owner,objective,ends_on,agreement_version from programmes where id=$1"
+      },
+      {
+        "title": "Feedback to review",
+        "sql": "select code,title,kind,severity,status,owner,fix_version from v_feedback where programme_id=$1 and status not in ('closed','duplicate') order by code"
+      },
+      {
+        "title": "Fix evidence",
+        "sql": "select f.code,r.tester,r.build,r.outcome,r.evidence_ref,r.tested_on from retests r join feedback f on f.id=r.feedback_id where f.programme_id=$1 order by f.code,r.created_at"
+      }
+    ]
+  },
+  {
+    "name": "exit-review",
+    "title": "Beta exit review",
+    "for_each": "select id,code from programmes order by code",
+    "file": "code",
+    "sections": [
+      {
+        "title": "Programme",
+        "layout": "record",
+        "sql": "select code,name,owner,objective,ends_on,agreement_version from programmes where id=$1"
+      },
+      {
+        "title": "Current readiness",
+        "layout": "record",
+        "note": "An internal decision aid. It does not release software or certify product safety.",
+        "sql": "select blocking_issues,unfinished_activities,ineligible_participants,fixes_unclosed,unassigned_activities,participants,activities from v_exit where id=$1"
+      },
+      {
+        "title": "Recorded decisions",
+        "note": "Historical snapshots. New feedback or changed evidence can invalidate an earlier decision.",
+        "sql": "select decision,actor,rationale,snapshot,created_at from decisions where programme_id=$1 order by created_at"
+      }
     ]
   }
 ]

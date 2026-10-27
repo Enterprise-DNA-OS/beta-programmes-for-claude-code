@@ -1,43 +1,75 @@
-# Beta Programmes for Claude Code: operating instructions
+# Beta Programmes for Claude Code
 
-This file is the brain. Claude Code reads it at the start of every session. It says who this is for, how work gets done, and the one right way to do each recurring job.
+This is a beta programme operator's desk. The business name and report styling live in brand.json. Ask the operator for their programme and rules before writing real records. The demo contains fictional data.
 
-## Who this is for
+## One route per job
 
-- **Business:** [YOUR BUSINESS]
-- **Operator:** [YOUR NAME], [your role]
-- **What matters most:** [the one or two outcomes you care about]
-
-Fill this in once. A worker with context knows. A worker without it guesses.
-
-## How to work
-
-1. **Take a brief, not a script.** The operator describes the outcome. You run the right command and present the answer.
-2. **Read before you write.** Before drafting anything about a record, read its full history first.
-3. **Plain language.** Short sentences. No filler. Numbers in tables.
-4. **Silent success, loud problems.** No play-by-play. Say what broke and what you did about it.
-5. **Stop at the line.** Anything that sends, deletes, or faces a customer waits for a yes in this session.
-
-## Routing table: one right way for each recurring job
-
-| When the operator asks for... | Use this |
+| Job | Command recipe |
 |---|---|
-| <!-- TODO(author): one row per slash command --> | `/...` |
+| help | /help |
+| programmes | /programmes |
+| participants | /participants |
+| activities | /activities |
+| show | /show |
+| show feedback | /show-feedback |
+| show participant | /show-participant |
+| update participant | /update-participant |
+| renew agreement | /renew-agreement |
+| beta week | /beta-week |
+| cohort readiness | /cohort-readiness |
+| activity chase | /activity-chase |
+| feedback triage | /feedback-triage |
+| retest queue | /retest-queue |
+| exit review | /exit-review |
+| attention | /attention |
+| compliance | /compliance |
+| insights | /insights |
+| history | /history |
+| add programme | /add-programme |
+| add participant | /add-participant |
+| enrol | /enrol |
+| add activity | /add-activity |
+| assign | /assign |
+| complete | /complete |
+| add | /add |
+| triage | /triage |
+| duplicate | /duplicate |
+| fix | /fix |
+| request retest | /request-retest |
+| record retest | /record-retest |
+| resolve | /resolve |
+| withdraw | /withdraw |
+| log | /log |
+| record decision | /record-decision |
+| import | /import |
+| export | /export |
+| weekly review | /weekly-review |
+| draft test plan | /draft-test-plan |
+| draft exit brief | /draft-exit-brief |
+| Change a field or rule | /customise |
+| Add a read-only report | /new-view |
 
-If an ask fits nothing here, run the CLI directly (`npm run <cli> -- --help`) and then propose a new command for it.
+## Working rules
 
-## Hard rules
+Read the CLI before answering. Use show, show-feedback and show-participant for full details. Use case-insensitive names or codes; ambiguous matches exit with a candidate list. Every CLI command supports --json.
 
-- Never send email or messages from here. Draft to `drafts/`, a person sends.
-- Never delete records without an explicit yes in this session. Prefer marking closed or archived.
-- Never invent a record. If a name is ambiguous, list the candidates and ask.
-- The database is the source of truth. If the answer is not in it, say so.
+Read before writing. Actor labels record responsibility; they do not authenticate a person. This is a single-organisation tool for trusted internal operators. No shared public access is configured.
 
-## Where things live
+Never send messages, invite participants, distribute builds or release software. Draft to drafts/. Never delete a record without explicit authorisation. Never invent agreement acceptance, privacy notices, test results or decision rationale.
 
-- `scripts/` the CLI. `scripts/lib/db.mjs` picks `DATABASE_URL` (Postgres, Supabase) or the embedded database in `.data/`.
-- `supabase/migrations/` the schema, plain SQL. `npm run migrate` applies it.
-- `.claude/commands/` the slash commands. Add one every time the same ask comes twice.
-- `docs/` the thesis and the guide for moving off Centercode.
+The database is the record. CSV imports require the operator's column map and stable source namespace. Never assume imported status means tested, approved or ready. Preserve source data and use the import preview first. A changed source row aborts for reconciliation.
 
-Built by Enterprise DNA. Installed and run for you as part of Omni: https://enterprisedna.co/omni/instead-of/centercode
+The exit decision is a dated snapshot. It is not permission to deploy and is not automatically current after new feedback. See docs/compliance.md for the local gate and privacy record checks. Do not claim that this tool certifies a legal obligation or product safety.
+
+Keep real data, source exports and reports out of git. Use npm test for isolated temporary data. Never seed a working database. Schema changes go into the next numbered migration and are tested before application.
+
+## Files
+
+- scripts/beta.mjs: one CLI.
+- supabase/migrations: numbered Postgres and PGlite migrations.
+- scripts/lib: shared database, CSV and document helpers from the rebuild template.
+- views.json and documents.json: read-only report definitions.
+- .claude/commands: the same recipes for Claude Code, Codex, OpenCode and Cursor.
+
+Built and run by Enterprise DNA through Omni by Enterprise DNA.
+

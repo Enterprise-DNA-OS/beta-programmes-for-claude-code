@@ -1,13 +1,44 @@
 [
   {
     "name": "week",
-    "title": "This week",
-    "subtitle": "Beta Programmes for Claude Code: what needs attention, rendered by npm run view",
+    "title": "Beta programme week",
     "sections": [
       {
+        "title": "Exit readiness",
+        "sql": "select code,name,owner,ends_on,blocking_issues,unfinished_activities,ineligible_participants,fixes_unclosed,unassigned_activities from v_exit order by code"
+      },
+      {
         "title": "Needs attention",
-        "note": "TODO(author): point this at the industry's attention view (overdue, stuck, quiet).",
-        "sql": "select 'replace me' as item, 'TODO(author)' as why"
+        "sql": "select * from v_attention order by programme,record"
+      }
+    ]
+  },
+  {
+    "name": "cohort",
+    "title": "Participant readiness",
+    "sections": [
+      {
+        "title": "Agreements and participation",
+        "sql": "select programme,participant,name,platform,eligible,pending_activities,last_active_on from v_cohort order by programme,participant"
+      },
+      {
+        "title": "Records to review",
+        "sql": "select * from v_compliance order by rule,record",
+        "note": "Record checks flag missing evidence. They are not a legal compliance determination."
+      }
+    ]
+  },
+  {
+    "name": "feedback",
+    "title": "Feedback and retests",
+    "sections": [
+      {
+        "title": "Open feedback",
+        "sql": "select programme,code,title,severity,status,owner from v_feedback where status not in ('closed','duplicate') order by programme,code"
+      },
+      {
+        "title": "Retest evidence",
+        "sql": "select programme,feedback,tester,build,outcome,due_on,current_build from v_retests order by programme,feedback"
       }
     ]
   }
